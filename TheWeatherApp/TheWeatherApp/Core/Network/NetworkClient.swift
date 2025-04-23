@@ -17,7 +17,7 @@ class URLSessionNetworkClient: NetworkClient {
     private let apiKey: String
 
     init(
-        session: URLSession,
+        session: URLSession = .shared,
         baseURL: String,
         apiKey: String
     ) {

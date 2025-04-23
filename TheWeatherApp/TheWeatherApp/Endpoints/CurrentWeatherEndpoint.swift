@@ -10,7 +10,7 @@ import Foundation
 struct CurrentWeatherEndpoint: Endpoint {
     let city: String
 
-    var path: String { "/weather" }
+    var path: String { "/current" }
     var method: HTTPMethod { .get }
     var queryItems: [URLQueryItem]? {
         [

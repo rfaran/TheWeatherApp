@@ -30,13 +30,13 @@ extension Endpoint {
     ) throws -> URLRequest {
         var components = URLComponents(string: baseURL + path)
 
-        guard let url = components?.url else {
-            throw APIError.invalidURL
-        }
-
         var query = queryItems ?? []
         query.append(URLQueryItem(name: "access_key", value: apiKey))
         components?.queryItems = query
+
+        guard let url = components?.url else {
+            throw APIError.invalidURL
+        }
 
         var request = URLRequest(url: url)
         request.httpMethod = method.rawValue
