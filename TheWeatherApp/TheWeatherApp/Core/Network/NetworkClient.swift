@@ -8,7 +8,7 @@
 import Foundation
 
 protocol NetworkClient {
-    func request<T: Decodable>(_ endpoint: Endpoint) async -> Result<T, APIError>
+    func request<T: Decodable>(_ endpoint: Endpoint) async throws -> T
 }
 
 class URLSessionNetworkClient: NetworkClient {
@@ -26,30 +26,24 @@ class URLSessionNetworkClient: NetworkClient {
         self.apiKey = apiKey
     }
 
-    func request<T: Decodable>(_ endpoint: Endpoint) async -> Result<T, APIError> {
+    func request<T: Decodable>(_ endpoint: Endpoint) async throws -> T {
+        let request = try endpoint.makeRequest(
+            baseURL: baseURL,
+            apiKey: apiKey
+        )
+
+        let (data, response) = try await session.data(for: request)
+
+        guard let httpResponse = response as? HTTPURLResponse,
+                (200..<300).contains(httpResponse.statusCode)
+        else {
+            throw APIError.unknown
+        }
+
         do {
-            let request = try endpoint.makeRequest(
-                baseURL: baseURL,
-                apiKey: apiKey
-            )
-            let (data, response) = try await session.data(for: request)
-
-            guard let httpResponse = response as? HTTPURLResponse,
-                  (200..<300).contains(httpResponse.statusCode)
-            else {
-                return .failure(.unknown)
-            }
-
-            do {
-                let decoded = try JSONDecoder().decode(T.self, from: data)
-                return .success(decoded)
-            } catch {
-                return .failure(.decodingFailed(error))
-            }
-        } catch let error as APIError {
-            return .failure(error)
+            return try JSONDecoder().decode(T.self, from: data)
         } catch {
-            return .failure(.unknown)
+            throw APIError.decodingFailed(error)
         }
     }
 }
