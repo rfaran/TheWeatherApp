@@ -1,0 +1,45 @@
+//
+//  APIRequest.swift
+//  TheWeatherApp
+//
+//  Created by Faran Rasheed on 4/23/25.
+//
+
+import Foundation
+
+enum HTTPMethod: String {
+    case get = "GET"
+    case post = "POST"
+}
+
+protocol Endpoint {
+    var path: String { get }
+    var method: HTTPMethod { get }
+    var queryItems: [URLQueryItem]? { get }
+
+    func makeRequest(
+        baseURL: String,
+        apiKey: String
+    ) throws -> URLRequest
+}
+
+extension Endpoint {
+    func makeRequest(
+        baseURL: String,
+        apiKey: String
+    ) throws -> URLRequest {
+        var components = URLComponents(string: baseURL + path)
+
+        guard let url = components?.url else {
+            throw APIError.invalidURL
+        }
+
+        var query = queryItems ?? []
+        query.append(URLQueryItem(name: "access_key", value: apiKey))
+        components?.queryItems = query
+
+        var request = URLRequest(url: url)
+        request.httpMethod = method.rawValue
+        return request
+    }
+}
