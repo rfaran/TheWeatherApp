@@ -10,6 +10,4 @@ struct WeatherModel {
     let currentDate: String
     let temperatue: String
     let description: String
-    
-
 }
