@@ -14,7 +14,8 @@ struct CurrentWeatherEndpoint: Endpoint {
     var method: HTTPMethod { .get }
     var queryItems: [URLQueryItem]? {
         [
-            .init(name: "query", value: city)
+            .init(name: "query", value: city),
+            .init(name: "units", value: "f")
         ]
     }
 }

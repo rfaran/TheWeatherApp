@@ -1,5 +1,5 @@
 //
-//  WeatherService.swift
+//  CurrentWeatherService.swift
 //  TheWeatherApp
 //
 //  Created by Faran Rasheed on 4/23/25.
@@ -16,11 +16,6 @@ class CurrentWeatherService {
         let endpoint = CurrentWeatherEndpoint(city: city)
         let response: CurrentWeatherResponse = try await client.request(endpoint)
 
-        return .init(
-            cityName: response.location.name,
-            currentDate: response.location.localtime,
-            temperatue: "72°",
-            description: "Partly Cloudy"
-        )
+        return .init(response: response)
     }
 }

@@ -1,5 +1,5 @@
 //
-//  APIRequest.swift
+//  Endpoint.swift
 //  TheWeatherApp
 //
 //  Created by Faran Rasheed on 4/23/25.

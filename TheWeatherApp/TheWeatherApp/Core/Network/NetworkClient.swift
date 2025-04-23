@@ -1,5 +1,5 @@
 //
-//  APIClient.swift
+//  NetworkClient.swift
 //  TheWeatherApp
 //
 //  Created by Faran Rasheed on 4/23/25.
@@ -43,7 +43,11 @@ class URLSessionNetworkClient: NetworkClient {
         do {
             return try JSONDecoder().decode(T.self, from: data)
         } catch {
-            throw APIError.decodingFailed(error)
+            if let apiError = try? JSONDecoder().decode(APIErrorResponse.self, from: data) {
+                throw APIError.serverError(apiError.error)
+            } else {
+                throw APIError.decodingFailed(error)
+            }
         }
     }
 }

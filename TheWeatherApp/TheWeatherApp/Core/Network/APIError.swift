@@ -11,4 +11,5 @@ enum APIError: Error {
     case invalidURL
     case unknown
     case decodingFailed(Error)
+    case serverError(APIErrorDetail)
 }
