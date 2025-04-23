@@ -6,7 +6,7 @@
 //
 
 // Domain layer model
-struct WeatherModel {
+struct CurrentWeatherModel {
     let cityName: String
     let currentDate: String
     let temperatue: String
@@ -14,7 +14,7 @@ struct WeatherModel {
 }
 
 // Server response object
-struct WeatherResponse: Decodable {
+struct CurrentWeatherResponse: Decodable {
     let location: Location
 }
 

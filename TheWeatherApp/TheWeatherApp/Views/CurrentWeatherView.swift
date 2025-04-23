@@ -7,9 +7,9 @@
 
 import SwiftUI
 
-struct ContentView: View {
+struct CurrentWeatherView: View {
 
-    @State private var weatherModel: WeatherModel?
+    @State private var weatherModel: CurrentWeatherModel?
 
     var body: some View {
         ZStack {
@@ -57,5 +57,5 @@ struct ContentView: View {
 }
 
 #Preview {
-    ContentView()
+    CurrentWeatherView()
 }
