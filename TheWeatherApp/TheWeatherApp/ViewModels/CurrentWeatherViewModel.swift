@@ -26,8 +26,10 @@ class CurrentWeatherViewModel: ObservableObject {
 
         do {
             weatherModel = try await service.fetchWeather(for: city)
+        } catch let error as APIError {
+            errorMessage = error.message
         } catch {
-            errorMessage = "Some error occured"
+            errorMessage = APIErrorMessages.unknownError.message
         }
 
         isLoading = false

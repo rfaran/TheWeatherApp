@@ -37,16 +37,16 @@ class URLSessionNetworkClient: NetworkClient {
         guard let httpResponse = response as? HTTPURLResponse,
                 (200..<300).contains(httpResponse.statusCode)
         else {
-            throw APIError.unknown
+            throw APIError.serverError(APIErrorMessages.unknownError.message)
         }
 
         do {
             return try JSONDecoder().decode(T.self, from: data)
         } catch {
             if let apiError = try? JSONDecoder().decode(APIErrorResponse.self, from: data) {
-                throw APIError.serverError(apiError.error)
+                throw APIError.serverError((APIErrorMessages(rawValue: apiError.error.code) ?? .unknownError).message)
             } else {
-                throw APIError.decodingFailed(error)
+                throw APIError.serverError(APIErrorMessages.unknownError.message)
             }
         }
     }
