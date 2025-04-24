@@ -52,9 +52,9 @@ struct WeatherInfoView: View {
             Text(model.currentDate)
                 .foregroundStyle(.white.opacity(0.8))
 
-            Image(systemName: "cloud.fill")
+            Image(systemName: model.weatherIcon)
                 .font(.system(size: 100))
-                .foregroundStyle(.white)
+                .foregroundStyle(.white, .yellow)
 
             Text(model.temperature)
                 .font(.system(size: 80))

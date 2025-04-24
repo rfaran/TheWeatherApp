@@ -13,12 +13,22 @@ struct CurrentWeatherModel {
     let currentDate: String
     let temperature: String
     let description: String
+    let weatherIcon: String
 
     init(response: CurrentWeatherResponse) {
         cityName = response.location.name
         currentDate = Date(timeIntervalSince1970: response.location.localtime).formattedAsDayAndDate()
         temperature = "\(response.current.temperature)°"
-        description = response.current.description.first ?? ""
+
+        if let firstDescription = response.current.description.first {
+            description = firstDescription
+
+            let trimmedDescription = firstDescription.trimmingCharacters(in: .whitespacesAndNewlines).lowercased()
+            weatherIcon = WeatherCondition(rawValue: trimmedDescription)?.imageName ?? WeatherCondition.unknown.imageName
+        } else {
+            description = "Unknown"
+            weatherIcon = WeatherCondition.unknown.imageName
+        }
     }
 }
 
