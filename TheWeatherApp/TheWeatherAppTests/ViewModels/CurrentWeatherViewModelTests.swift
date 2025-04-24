@@ -39,4 +39,18 @@ final class CurrentWeatherViewModelTests: XCTestCase {
         XCTAssertFalse(viewModel.isLoading)
         XCTAssertNil(viewModel.weatherModel)
     }
+
+    func testFetchWeatherWhenCityIsEmpty() async {
+        let viewModel = CurrentWeatherViewModel(service: mockService)
+        viewModel.city = ""
+
+        await viewModel.fetchWeather()
+        
+        XCTAssertFalse(viewModel.isLoading)
+        XCTAssertEqual(
+            viewModel.errorMessage,
+            "City name is required."
+        )
+        XCTAssertNil(viewModel.weatherModel)
+    }
 }

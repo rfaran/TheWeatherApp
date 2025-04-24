@@ -24,6 +24,12 @@ class CurrentWeatherViewModel: ObservableObject {
         isLoading = true
         errorMessage = nil
 
+        if city.isEmpty {
+            errorMessage = "City name is required."
+            isLoading = false
+            return
+        }
+
         do {
             weatherModel = try await service.fetchWeather(for: city)
         } catch let error as APIError {
