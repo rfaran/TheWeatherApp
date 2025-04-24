@@ -13,4 +13,10 @@ extension Date {
         formatter.dateFormat = "EEEE, MMMM d"
         return formatter.string(from: self)
     }
+
+    func formattedAsDate() -> String {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "MMMM d"
+        return formatter.string(from: self)
+    }
 }

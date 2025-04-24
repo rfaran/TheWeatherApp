@@ -30,6 +30,7 @@ struct CurrentWeatherView: View {
                     }
                     else if let weatherModel = viewModel.weatherModel {
                         WeatherInfoView(model: weatherModel)
+                        ForecastView(model: weatherModel)
                     }
                 }
                 .padding(.top, 30)
@@ -64,5 +65,50 @@ struct WeatherInfoView: View {
             Text(model.description)
                 .foregroundStyle(.white.opacity(0.8))
         }
+    }
+}
+
+struct ForecastView: View {
+    let model: CurrentWeatherModel
+
+    var body: some View {
+        VStack (alignment: .leading) {
+            Text("\(model.forecast.count) Day Forecast")
+                .font(.subheadline)
+                .fontWeight(.bold)
+                .foregroundStyle(.white)
+
+            ScrollView(.horizontal) {
+                HStack {
+                    ForEach (model.forecast, id: \.self) { forecast in
+                        ForecastDayView(model: forecast)
+                    }
+                }
+            }
+        }
+        .padding(.top, 16)
+    }
+}
+
+struct ForecastDayView: View {
+    let model: ForecastModel
+
+    var body: some View {
+        VStack {
+            Text(model.date)
+                .font(.caption)
+
+            HStack {
+                Text(model.minTemperature)
+                Text(" - ")
+                Text(model.maxTemperature)
+            }
+            .font(.headline)
+        }
+        .foregroundColor(.white)
+        .padding()
+        .background(.white.opacity(0.2))
+        .cornerRadius(8)
+
     }
 }

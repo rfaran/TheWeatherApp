@@ -14,6 +14,7 @@ struct CurrentWeatherModel {
     let temperature: String
     let description: String
     let weatherIcon: String
+    let forecast: [ForecastModel]
 
     init(response: CurrentWeatherResponse) {
         cityName = response.location.name
@@ -29,13 +30,29 @@ struct CurrentWeatherModel {
             description = "Unknown"
             weatherIcon = WeatherCondition.unknown.imageName
         }
+
+        forecast = response.forecast?.map { ForecastModel(forecast: $0) } ?? []
     }
 }
+
+struct ForecastModel: Hashable {
+    let date: String
+    let minTemperature: String
+    let maxTemperature: String
+
+    init(forecast: ForecastDay) {
+        date = Date(timeIntervalSince1970: forecast.date).formattedAsDate()
+        minTemperature = "\(forecast.minTemp)°"
+        maxTemperature = "\(forecast.maxTemp)°"
+    }
+}
+
 
 // Server response object
 struct CurrentWeatherResponse: Decodable {
     let location: Location
     let current: CurrentResponse
+    let forecast: [ForecastDay]?
 }
 
 struct Location: Decodable {
@@ -55,5 +72,17 @@ struct CurrentResponse: Decodable {
     enum CodingKeys: String, CodingKey {
         case temperature
         case description = "weather_descriptions"
+    }
+}
+
+struct ForecastDay: Decodable {
+    let date: Double
+    let minTemp: Int
+    let maxTemp: Int
+
+    enum CodingKeys: String, CodingKey {
+        case date = "date_epoch"
+        case minTemp = "mintemp"
+        case maxTemp = "maxtemp"
     }
 }
