@@ -10,8 +10,8 @@ import SwiftUI
 @main
 struct TheWeatherApp: App {
     let client = URLSessionNetworkClient(
-        baseURL: EnivronmentConfiguration.current.baseURL,
-        apiKey: EnivronmentConfiguration.current.apiKey
+        baseURL: EnvironmentConfiguration.current.baseURL,
+        apiKey: EnvironmentConfiguration.current.apiKey
     )
 
     var body: some Scene {

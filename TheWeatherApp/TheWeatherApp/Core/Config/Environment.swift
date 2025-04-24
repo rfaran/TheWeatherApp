@@ -1,12 +1,12 @@
 //
-//  Envineronment.swift
+//  Environment.swift
 //  TheWeatherApp
 //
 //  Created by Faran Rasheed on 4/23/25.
 //
 
 // We could use targets and schemes to manage this as well.
-enum Envineronment {
+enum Environment {
     case debug
     case production
     // and so on
@@ -30,8 +30,8 @@ enum Envineronment {
     }
 }
 
-struct EnivronmentConfiguration {
-    static let current: Envineronment = {
+struct EnvironmentConfiguration {
+    static let current: Environment = {
         #if DEBUG
         .debug
 
