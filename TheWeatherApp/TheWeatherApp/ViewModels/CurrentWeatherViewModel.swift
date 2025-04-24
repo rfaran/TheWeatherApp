@@ -9,6 +9,7 @@ import Foundation
 
 @MainActor
 class CurrentWeatherViewModel: ObservableObject {
+    // Other approach would be to have a state and the view could rely on the view state and render instead of keeping all these publishers.
     @Published var city: String = "Hagerstown"
     @Published var weatherModel: CurrentWeatherModel?
     @Published var isLoading: Bool = false
@@ -24,6 +25,7 @@ class CurrentWeatherViewModel: ObservableObject {
         isLoading = true
         errorMessage = nil
 
+        // We could do other validations to limit api usage
         if city.isEmpty {
             errorMessage = "City name is required."
             isLoading = false

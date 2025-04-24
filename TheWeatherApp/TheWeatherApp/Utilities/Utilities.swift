@@ -7,6 +7,7 @@
 
 import Foundation
 
+// Utility to return SF symbol based on description (since api does not return any other status)
 enum WeatherCondition: String {
     case sunny = "sunny"
     case partlyCloudy = "partly cloudy"

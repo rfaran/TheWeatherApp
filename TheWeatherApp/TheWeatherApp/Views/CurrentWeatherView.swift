@@ -8,7 +8,6 @@
 import SwiftUI
 
 struct CurrentWeatherView: View {
-
     @StateObject var viewModel: CurrentWeatherViewModel
 
     var body: some View {
@@ -109,6 +108,5 @@ struct ForecastDayView: View {
         .padding()
         .background(.white.opacity(0.2))
         .cornerRadius(8)
-
     }
 }

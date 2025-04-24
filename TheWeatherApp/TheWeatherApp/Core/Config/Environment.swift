@@ -5,7 +5,7 @@
 //  Created by Faran Rasheed on 4/23/25.
 //
 
-// We could use targets and schemes to manage this as well.
+// TIP: We could use build configurations and schemes to manage this as well.
 enum Environment {
     case debug
     case production
