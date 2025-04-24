@@ -9,7 +9,7 @@ import Foundation
 
 @MainActor
 class CurrentWeatherViewModel: ObservableObject {
-    @Published var city: String = "Karachi"
+    @Published var city: String = "Hagerstown"
     @Published var weatherModel: CurrentWeatherModel?
     @Published var isLoading: Bool = false
     @Published var errorMessage: String?

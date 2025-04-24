@@ -56,7 +56,7 @@ struct WeatherInfoView: View {
                 .font(.system(size: 100))
                 .foregroundStyle(.white)
 
-            Text(model.temperatue)
+            Text(model.temperature)
                 .font(.system(size: 80))
                 .fontWeight(.thin)
                 .foregroundStyle(.white)
