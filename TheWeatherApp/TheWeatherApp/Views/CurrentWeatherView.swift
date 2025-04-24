@@ -13,51 +13,56 @@ struct CurrentWeatherView: View {
 
     var body: some View {
         ZStack {
-            Color("BackgroundColor")
-                .ignoresSafeArea()
+            Color("BackgroundColor").ignoresSafeArea()
 
-            TextField("Enter City", text: $viewModel.city)
-                .textFieldStyle(.roundedBorder)
-                .padding()
-
-            Button("Get Weather") {
-                Task {
-                    await viewModel.fetch()
+            ScrollView {
+                VStack (spacing: 20) {
+                    SearchBarView(city: $viewModel.city) {
+                        Task {
+                            await viewModel.fetchWeather()
+                        }
+                    }
+                    if viewModel.isLoading {
+                        LoadingView()
+                    }
+                    else if let error = viewModel.errorMessage {
+                        ErrorView(message: error)
+                    }
+                    else if let weatherModel = viewModel.weatherModel {
+                        WeatherInfoView(model: weatherModel)
+                    }
                 }
+                .padding(.top, 30)
+                .padding(.horizontal)
             }
-            .buttonStyle(.borderedProminent)
+        }
+    }
+}
 
+struct WeatherInfoView: View {
+    let model: CurrentWeatherModel
 
-            if viewModel.isLoading {
-                ProgressView()
-            } else if let error = viewModel.errorMessage {
-                Text(error)
-                    .foregroundColor(.red)
-            } else if let weatherModel = viewModel.weatherModel {
-                VStack (spacing: 8) {
-                    Text(weatherModel.cityName)
-                        .font(.largeTitle.bold())
-                        .foregroundStyle(.white)
+    var body: some View {
+        VStack {
+            Text(model.cityName)
+                .font(.largeTitle)
+                .fontWeight(.bold)
+                .foregroundStyle(.white)
 
-                    Text(weatherModel.currentDate)
-                        .foregroundStyle(.white.opacity(0.8))
+            Text(model.currentDate)
+                .foregroundStyle(.white.opacity(0.8))
 
-                    Image(systemName: "cloud.fill")
-                        .font(.system(size: 100))
-                        .foregroundStyle(.white)
+            Image(systemName: "cloud.fill")
+                .font(.system(size: 100))
+                .foregroundStyle(.white)
 
-                    Text(weatherModel.temperatue)
-                        .font(.system(size: 80))
-                        .fontWeight(.thin)
-                        .foregroundStyle(.white)
+            Text(model.temperatue)
+                .font(.system(size: 80))
+                .fontWeight(.thin)
+                .foregroundStyle(.white)
 
-                    Text(weatherModel.description)
-                        .foregroundStyle(.white.opacity(0.8))
-
-                    Spacer()
-                }
-                .padding(.top, 40)
-            }
+            Text(model.description)
+                .foregroundStyle(.white.opacity(0.8))
         }
     }
 }

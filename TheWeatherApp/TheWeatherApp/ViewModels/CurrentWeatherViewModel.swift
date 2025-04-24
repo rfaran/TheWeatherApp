@@ -9,7 +9,7 @@ import Foundation
 
 @MainActor
 class CurrentWeatherViewModel: ObservableObject {
-    @Published var city: String = "Hagerstown"
+    @Published var city: String = "Karachi"
     @Published var weatherModel: CurrentWeatherModel?
     @Published var isLoading: Bool = false
     @Published var errorMessage: String?
@@ -20,7 +20,7 @@ class CurrentWeatherViewModel: ObservableObject {
         self.service = service
     }
 
-    func fetch() async {
+    func fetchWeather() async {
         isLoading = true
         errorMessage = nil
 
